@@ -2,6 +2,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as moment from 'moment';
 
+type logConfigType = {
+  fname?: string;
+};
+
 class Log {
   logPath: string;
   constructor() {
@@ -26,19 +30,38 @@ class Log {
     }
   }
 
-  write(msg: string) {
+  write(msg: string, config?: logConfigType) {
     this._tidyFile();
+    const { fname } = config || {};
+    const fnameStr = fname ? ` [${fname}]` : '';
 
     const now = moment().format('YYYYMMDD-HH:mm:ss');
-    const str = `###${now}### ${msg}`;
+    const str = `###${now}###${fnameStr} ${msg}`;
     console.log(str);
     fs.writeFileSync(this.logPath, `${str}\n`, { flag: 'a' });
   }
 
-  writeObj(obj: object) {
+  writeObj(obj: object, config?: logConfigType) {
     const msg = JSON.stringify(obj);
-    this.write(msg);
+    this.write(msg, config);
   }
+
+  writeArr(arr: (string | object)[], config?: logConfigType) {
+    const tmp = arr.map(one => {
+      if (typeof one === 'string') {
+        return one;
+      } else if (typeof one === 'object') {
+        return JSON.stringify(one);
+      }
+    });
+    this.write(tmp.join(''), config);
+  }
+
+  throw(msg: string, config?: logConfigType) {
+    this.write(' -- throw error: -- ' + msg, config);
+    throw new Error(msg);
+  }
+  
 }
 
 export default Log;

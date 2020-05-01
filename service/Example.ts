@@ -13,12 +13,7 @@ class Example extends ServiceBase {
         
       })
     };
-    return this.ctx.req.fetch('', option)
-      .then(res => {
-        this.ctx.log.write(`status: ${res.status}, text: ${res.statusText}`);
-        return res;
-      })
-      .then(res => res.json())
+    return this.ctx.req.fetch2('', option)
       .then(res => {
         this.ctx.log.writeObj(res); // for test
         if (!res.code) {
