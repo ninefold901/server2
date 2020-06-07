@@ -5,7 +5,7 @@ class Util {
   log: Log;
   constructor() {
     this.log = new Log();
-    this.log.write('[plugin]Util loaded.');
+    // this.log.write('[plugin]Util loaded.');
   }
 
   _genLog(funName: string, msg: string) {

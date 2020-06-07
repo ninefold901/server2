@@ -25,13 +25,13 @@ class Req {
    */
   fetch2(url: string, opt: any) {
     return fetch(url, opt)
-      .then((res) => {
-        // for debug
-        this.log.write(`status: ${res.status}, text: ${res.statusText}`, {
-          fname: 'plugin - Req.fetch2'
-        });
-        return res;
-      })
+      // .then((res) => {
+      //   // for debug
+      //   this.log.write(`status: ${res.status}, text: ${res.statusText}`, {
+      //     fname: 'plugin - Req.fetch2'
+      //   });
+      //   return res;
+      // })
       .then((res) => res.json())
       .catch((e) => {
         this.log.write(`error:\n${e.message}`, {

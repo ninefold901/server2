@@ -33,6 +33,12 @@ app.use(
 );
 app.use(bodyparser.json());
 
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'content-type,Content-Length, Authorization,Origin,Accept,X-Requested-With');
+//   next();
+// });
+
 // // get --
 // app.get('/api/xxx', (req, res) => {
 //     res.send('data');
