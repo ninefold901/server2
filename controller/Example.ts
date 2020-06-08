@@ -26,6 +26,16 @@ class Example extends ControllerBase {
       resolve();
     });
   }
+
+  testCtrl(ctx: ctxType) {
+    return this.ctrl(ctx, async (assert: Function, resolve: Function) => {
+      const { name } = ctx.request.body;
+      assert(ctx, name, 'no name.');
+
+      const rst = await ctx.service.example.test('post');
+      resolve(ctx, rst);
+    });
+  }
 }
 
 export default Example;
