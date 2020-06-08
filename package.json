@@ -11,7 +11,7 @@
     "boot": "ts-node ./lib/boot.ts",
     "start": "npm run boot && ts-node ./index.ts",
     "script": "npm run boot && ts-node ./script/index.ts",
-    "build": "rollup --config rollup.config.ts"
+    "build": "npm run boot && rollup --config rollup.config.ts"
   },
   "author": "ninefold901",
   "license": "ISC",
