@@ -2,7 +2,7 @@ import ServiceBase from '../lib/types/service';
 import { Model, ModelCtor } from 'sequelize';
 
 class Example extends ServiceBase {
-  exampleModel: ModelCtor<Model>;
+  exampleModel: ModelCtor<Model> | null;
   
   constructor() {
     super();
@@ -17,17 +17,17 @@ class Example extends ServiceBase {
 
   async query() {
     await this.getModel();
-    return this.exampleModel.findAll();
+    return (this.exampleModel as ModelCtor<Model>).findAll();
   }
 
   async create() {
     await this.getModel();
-    return this.exampleModel.create({});
+    return (this.exampleModel as ModelCtor<Model>).create({});
   }
 
   async update() {
     await this.getModel();
-    return this.exampleModel.update({
+    return (this.exampleModel as ModelCtor<Model>).update({
       name: 'test'
     }, {
       where: {
@@ -38,7 +38,7 @@ class Example extends ServiceBase {
 
   async delete() {
     await this.getModel();
-    return this.exampleModel.destroy({
+    return (this.exampleModel as ModelCtor<Model>).destroy({
       where: {
         id: 1
       }

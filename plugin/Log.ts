@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as moment from 'moment';
+import fs from 'fs';
+import path from 'path';
+import moment from 'moment';
 
 type logConfigType = {
   fname?: string;
