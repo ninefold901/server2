@@ -1,8 +1,36 @@
-import loadContext from './load-context';
-// eslint-disable-next-line no-unused-vars
-import { ctxType } from './types';
+import { ctxType } from './type';
+import config from '../config/config.default';
+import { controllerList, serviceList, pluginList } from './auto-code'; // auto code位置统一
 
-class W {
+// import boot from './boot';
+// export { boot };
+
+/**
+ * CTX
+ */
+function loadContext() {
+  const ctx: ctxType = {
+    controller: controllerList,
+    service: serviceList,
+    ...pluginList,
+
+    request: {},
+    response: {},
+
+    config,
+  };
+
+  Object.keys(serviceList).forEach((key) => {
+    serviceList[key].ctx = ctx;
+  });
+
+  return ctx;
+}
+
+/**
+ * W
+ */
+export class W {
   app: any;
   headerMsg: string;
   constructor(app: any = null) {
@@ -15,7 +43,18 @@ class W {
 
     this.app.get(api, (req: any, res: any) => {
       ctx.request = req;
-      const { hostname, url, headers, query, body, method, ip, ips, httpVersion, domain } = req;
+      const {
+        hostname,
+        url,
+        headers,
+        query,
+        body,
+        method,
+        ip,
+        ips,
+        httpVersion,
+        domain,
+      } = req;
 
       ctx.log.write(
         `${this.headerMsg}--get--request--\n${JSON.stringify({
@@ -28,11 +67,13 @@ class W {
           ip,
           ips,
           httpVersion,
-          domain
+          domain,
         })}`
       );
       cb(ctx).then(() => {
-        ctx.log.write(`${this.headerMsg}--get--response--\n${JSON.stringify(ctx.response)}`);
+        ctx.log.write(
+          `${this.headerMsg}--get--response--\n${JSON.stringify(ctx.response)}`
+        );
         res.send(ctx.response);
       });
     });
@@ -43,7 +84,18 @@ class W {
 
     this.app.post(api, (req: any, res: any) => {
       ctx.request = req;
-      const { hostname, url, headers, query, body, method, ip, ips, httpVersion, domain } = req;
+      const {
+        hostname,
+        url,
+        headers,
+        query,
+        body,
+        method,
+        ip,
+        ips,
+        httpVersion,
+        domain,
+      } = req;
 
       ctx.log.write(
         `${this.headerMsg}--post--request--\n${JSON.stringify({
@@ -56,11 +108,13 @@ class W {
           ip,
           ips,
           httpVersion,
-          domain
+          domain,
         })}`
       );
       cb(ctx).then(() => {
-        ctx.log.write(`${this.headerMsg}--post--response--\n${JSON.stringify(ctx.response)}`);
+        ctx.log.write(
+          `${this.headerMsg}--post--response--\n${JSON.stringify(ctx.response)}`
+        );
         res.send(ctx.response);
       });
     });
@@ -71,7 +125,4 @@ class W {
     await cb(ctx);
     ctx.log.write('executed a task.');
   }
-
 }
-
-export default W;

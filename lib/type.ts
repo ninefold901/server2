@@ -1,13 +1,32 @@
-/*eslint-disable no-unused-vars*/
-import { ctxType } from './index';
+import {
+  controllerType,
+  serviceType,
+  pluginType,
+} from './auto-code'; // auto code位置统一
 
-enum errnoEnum {
+/**
+ * TYPE
+ */
+type ctxBaseType = {
+  controller: controllerType;
+  service: serviceType;
+  request: any;
+  response: any;
+  config: any;
+};
+export type ctxType = ctxBaseType & pluginType;
+
+/**
+ * BASE
+ */
+
+enum controllerErrnoEnum {
   SUCCESS = 0,
   VALIDATE_ERROR = 1,
   INTERNAL_ERROR = 2,
-};
+}
 
-class ControllerBase {
+export class ControllerBase {
   _genLog(funName: string, msg: string) {
     return `[controller] - ${funName}: ${msg}`;
   }
@@ -15,7 +34,7 @@ class ControllerBase {
   _assert(ctx: ctxType, judge: boolean, msg: string) {
     if (!judge) {
       ctx.response = {
-        errno: errnoEnum.VALIDATE_ERROR,
+        errno: controllerErrnoEnum.VALIDATE_ERROR,
         msg,
         data: null,
       };
@@ -25,7 +44,7 @@ class ControllerBase {
 
   _resolve(ctx: ctxType, data: any) {
     ctx.response = {
-      errno: errnoEnum.SUCCESS,
+      errno: controllerErrnoEnum.SUCCESS,
       msg: 'success',
       data,
     };
@@ -33,14 +52,14 @@ class ControllerBase {
 
   _reject(ctx: ctxType, msg: string) {
     ctx.response = {
-      errno: errnoEnum.INTERNAL_ERROR,
+      errno: controllerErrnoEnum.INTERNAL_ERROR,
       msg: 'internal error',
       data: msg,
     };
   }
 
   ctrl(ctx: ctxType, cb: Function) {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       try {
         await cb(this._assert, this._resolve);
       } catch (error) {
@@ -53,4 +72,9 @@ class ControllerBase {
   }
 }
 
-export default ControllerBase;
+export class ServiceBase {
+  ctx!: ctxType;
+  _genLog(funName: string, msg: string) {
+    return `[service] - ${funName}: ${msg}`;
+  }
+}

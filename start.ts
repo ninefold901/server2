@@ -1,6 +1,6 @@
 /*eslint-disable-next-line no-unused-vars*/
-import { ctxType } from './lib/types/index';
-import W from './lib/W';
+import { W } from './lib/W';
+import { ctxType } from './lib/type';
 
 function start(app: any) {
   const w = new W(app);

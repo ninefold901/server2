@@ -1,4 +1,4 @@
-import ServiceBase from '../lib/types/service';
+import { ServiceBase } from '../lib/type';
 import { Model, ModelCtor } from 'sequelize';
 
 class Example extends ServiceBase {
@@ -58,7 +58,7 @@ class Example extends ServiceBase {
       })
     };
     return this.ctx.req.fetch2('', option)
-      .then(res => {
+      .then((res: any) => {
         this.ctx.log.writeObj(res); // for test
         if (!res.code) {
           return res.data;
