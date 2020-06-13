@@ -6,6 +6,13 @@ export namespace pluginList {
   export const req: Req;
   export const util: Util;
 }
+export type pluginType = {
+  db: Db;
+  example: Example$1;
+  log: Log;
+  req: Req;
+  util: Util;
+};
 declare class Db {
   log: Log;
   util: Util;
@@ -33,10 +40,10 @@ declare class Log {
   logPath: any;
   _getArchiveName(stat: any, name: any): any;
   _tidyFile(): void;
-  write(msg: any, config: logConfigType): void;
-  writeObj(obj: any, config: logConfigType): void;
-  writeArr(arr: any, config: logConfigType): void;
-  throw(msg: any, config: logConfigType): void;
+  write(msg: any, config?: logConfigType): void;
+  writeObj(obj: any, config?: logConfigType): void;
+  writeArr(arr: any, config?: logConfigType): void;
+  throw(msg: any, config?: logConfigType): void;
 }
 declare class Req {
   log: Log;

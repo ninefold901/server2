@@ -1,6 +1,7 @@
 import { ctxType } from './type';
 import config from '../config/config.default';
 import { controllerList, serviceList, pluginList } from './auto-code'; // auto code位置统一
+import { pluginList as basicPlugin } from '../plugin/basic';
 
 // import boot from './boot';
 // export { boot };
@@ -12,6 +13,7 @@ function loadContext() {
   const ctx: ctxType = {
     controller: controllerList,
     service: serviceList,
+    ...basicPlugin,
     ...pluginList,
 
     request: {},

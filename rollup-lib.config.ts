@@ -12,7 +12,8 @@ export default {
         'fs',
         './type',
         './auto-code',
-        '../config/config.default'
+        '../config/config.default',
+        '../plugin/basic'
     ],
     plugins: [
         typescript({
