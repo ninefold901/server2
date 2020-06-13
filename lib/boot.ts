@@ -78,3 +78,21 @@ export default function boot(bootInputPath: string = '../') {
   console.log('code generated.');
   console.log('boot done.');
 }
+
+export function bootPlugin(bootInputPath: string = '../') {
+  // 获得文件夹路径
+  const pluginPath = path.resolve(__dirname, `${bootInputPath}plugin`);
+
+  // 获得文件列表
+  const pluginList = fs.readdirSync(pluginPath);
+
+  // 生成内容
+  const fPlugin = bootGenerateFile(pluginList, 'plugin', true);
+
+  // 生成文件
+  fs.writeFileSync(
+    path.resolve(__dirname, `${bootAutoCodePath}auto-plugin.ts`),
+    ['// auto generated //', fPlugin, '\n'].join('\n\n')
+  );
+
+}

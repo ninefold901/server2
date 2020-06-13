@@ -1,3 +1,4 @@
-import boot from './lib/boot';
+import boot, { bootPlugin } from './lib/boot';
 
 boot();
+bootPlugin();
