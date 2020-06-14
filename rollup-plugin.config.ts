@@ -6,7 +6,7 @@ export default {
         file: 'plugin/basic.js',
         format: 'cjs'
     },
-    external: ['../model'],
+    external: ['../model', '../config/config.default'],
     plugins: [
         typescript({
             module: 'es6',
