@@ -129,8 +129,8 @@ class Util {
             // eslint-disable-next-line no-constant-condition
             while (1) {
                 try {
-                    yield cb();
-                    return true;
+                    const rst = yield cb();
+                    return rst;
                 }
                 catch (e) {
                     cnt++;
@@ -144,6 +144,24 @@ class Util {
                 }
             }
             throw new Error(this._genLog('retryDo', 'you should not go here'));
+        });
+    }
+    pipeAll(arr, queryCount, intervalTime = 1000) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (queryCount <= 0) {
+                this.log.throw(this._genLog('pipeAll', 'query count should > 0.'));
+            }
+            const list = [...arr];
+            const result = [];
+            while (list.length > 0) {
+                this.log.write(`piping... ${list.length} left...`);
+                const tmp = list.splice(0, queryCount);
+                yield Promise.all(tmp).then((res) => {
+                    result.push(...res);
+                });
+                yield this.waitFor(intervalTime);
+            }
+            return result;
         });
     }
 }

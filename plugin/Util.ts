@@ -40,13 +40,17 @@ class Util {
     return rst.join('');
   }
 
-  async retryDo(cb: Function, retryTimes: number = 3, intervalTime: number = 0) {
+  async retryDo(
+    cb: Function,
+    retryTimes: number = 3,
+    intervalTime: number = 0
+  ) {
     let cnt = 0;
     // eslint-disable-next-line no-constant-condition
     while (1) {
       try {
-        await cb();
-        return true;
+        const rst = await cb();
+        return rst;
       } catch (e) {
         cnt++;
         if (cnt >= retryTimes) {
@@ -55,10 +59,33 @@ class Util {
         if (intervalTime > 0) {
           await this.waitFor(intervalTime);
         }
-        this.log.write(this._genLog('retryDo', `retry for the ${cnt} time(s)...`));
+        this.log.write(
+          this._genLog('retryDo', `retry for the ${cnt} time(s)...`)
+        );
       }
     }
     throw new Error(this._genLog('retryDo', 'you should not go here'));
+  }
+
+  async pipeAll(
+    arr: Function[],
+    queryCount: number,
+    intervalTime: number = 1000
+  ) {
+    if (queryCount <= 0) {
+      this.log.throw(this._genLog('pipeAll', 'query count should > 0.'));
+    }
+    const list = [...arr];
+    const result: any[] = [];
+    while (list.length > 0) {
+      this.log.write(`piping... ${list.length} left...`);
+      const tmp = list.splice(0, queryCount);
+      await Promise.all(tmp).then((res) => {
+        result.push(...res);
+      });
+      await this.waitFor(intervalTime);
+    }
+    return result;
   }
 }
 
