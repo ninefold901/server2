@@ -21,7 +21,7 @@ declare class Db {
     sequelize: import("sequelize/types").Sequelize;
     initModel(): void;
     checkModelLoaded(): boolean;
-    getModel(modelName: any): any;
+    getModel(modelName: any): ModelCtor<Model>;
 }
 declare class Example {
     log: Log;
